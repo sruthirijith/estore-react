@@ -1,0 +1,82 @@
+/* ===============================
+   Admin Categories (Scoped CSS)
+   =============================== */
+
+.admin-categories {
+  max-width: 900px;
+  padding: 24px;
+}
+
+/* Section box */
+.admin-categories .cat-section {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.admin-categories h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.admin-categories h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+/* Flex row (SAFE replacement for .row) */
+.admin-categories .cat-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Inputs */
+.admin-categories .cat-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Select dropdown */
+.admin-categories select.cat-input {
+  width: 100%;
+}
+
+/* Buttons */
+.admin-categories .cat-btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-categories .cat-btn.primary {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.admin-categories .cat-btn.primary:hover {
+  background-color: #1d4ed8;
+}
+
+.admin-categories .cat-btn.danger {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.admin-categories .cat-btn.danger:hover {
+  background-color: #b91c1c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-categories .cat-row {
+    flex-direction: column;
+  }
+}

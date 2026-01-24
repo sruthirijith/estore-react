@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BASE_URL } from "../config";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");

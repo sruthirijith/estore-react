@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../config";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 function ResetPassword() {
   const [params] = useSearchParams();
@@ -12,25 +12,32 @@ function ResetPassword() {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const res = await fetch(`${BASE_URL}/forgot-password/reset`, {
+  if (password !== confirm) {
+    setMessage("Passwords do not match");
+    return;
+  }
+
+  const res = await fetch(
+    `${BASE_URL}/forgot-password/reset?token=${token}`,
+    {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        token,
-        new_password: password,
-        reenter_password: confirm,
+        password: password   // ✅ ONLY this
       }),
-    });
-
-    const data = await res.json();
-    setMessage(data.detail?.data?.message || "Failed");
-
-    if (res.ok) {
-      setTimeout(() => navigate("/login"), 2000);
     }
-  };
+  );
+
+  const data = await res.json();
+  setMessage(data.detail?.message || "Failed");
+
+  if (res.ok) {
+    setTimeout(() => navigate("/login"), 2000);
+  }
+};
+
 
   return (
     <div className="auth-box">

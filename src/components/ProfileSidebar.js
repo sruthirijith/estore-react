@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { BASE_URL } from "../config";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const ProfileSidebar = () => {
   const [username, setUsername] = useState("");
@@ -8,6 +8,9 @@ const ProfileSidebar = () => {
     "/assets/images/default-user.png"
   );
 
+  const fileInputRef = useRef(null);
+
+  // 🔹 Load profile info
   useEffect(() => {
     const token = localStorage.getItem("access_token");
     if (!token) return;
@@ -29,11 +32,55 @@ const ProfileSidebar = () => {
       );
   }, []);
 
+  // 🔹 Handle image click
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // 🔹 Handle upload
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const token = localStorage.getItem("access_token");
+    if (!token) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch(`${BASE_URL}/profile/upload-image`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        console.error("Profile image upload failed");
+        return;
+      }
+
+      const json = await res.json();
+      if (json.detail?.data?.profile_image) {
+        setProfileImage(json.detail.data.profile_image);
+      }
+
+      // allow selecting same image again
+      e.target.value = "";
+    } catch (err) {
+      console.error("Profile image upload error:", err);
+    }
+  };
+
   return (
     <div className="account-sidebar text-center">
+      {/* 🔹 CLICKABLE PROFILE IMAGE */}
       <img
         src={profileImage}
         alt="Profile"
+        onClick={handleImageClick}
         style={{
           width: 100,
           height: 100,
@@ -41,6 +88,15 @@ const ProfileSidebar = () => {
           objectFit: "cover",
           cursor: "pointer",
         }}
+      />
+
+      {/* 🔹 HIDDEN FILE INPUT (THIS IS THE ANSWER TO YOUR QUESTION) */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        accept="image/*"
+        style={{ display: "none" }}
+        onChange={handleImageUpload}
       />
 
       <h5 className="mt-3">{username}</h5>

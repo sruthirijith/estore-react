@@ -1,41 +1,78 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import ProductDetails from './pages/ProductDetails';
-import Profile from './pages/Profile';
+import React from "react";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+
+/* LAYOUTS */
+import UserLayout from "./components/UserLayout";
+import AdminLayout from "./components/AdminLayout";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
+
+/* USER PAGES */
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ProductDetails from "./pages/ProductDetails";
+import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Addresses from "./pages/Addresses";
-import './App.css';
+
+/* ADMIN PAGES */
+import Admin from "./pages/Admin";
+import AdminProfile from "./pages/AdminProfile";
+import Categories from "./pages/UploadCategories";
+import Brands from "./pages/UploadBrands";
+import Products from "./pages/AdminUploadProduct";
+
+import "./App.css";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <div className="App">
-          {/* Temporary debug banner to confirm React is rendering */}
-          <div style={{ background: '#ffeb3b', padding: '8px 16px', textAlign: 'center', fontWeight: 'bold', zIndex: 9999 }}>
-            React app is running – if you can see this, the page is loaded.
+
+          {/* OPTIONAL: DEV BANNER */}
+          <div
+            style={{
+              background: "#ffeb3b",
+              padding: "6px",
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            React app is running
           </div>
-          <Header />
-          <main>
-            <Routes>
+
+          <Routes>
+
+            {/* ================= USER ROUTES ================= */}
+            {/* Header & Footer ONLY for users */}
+            <Route element={<UserLayout />}>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/product-details" element={<ProductDetails />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/addresses" element={<Addresses />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/addresses" element={<Addresses />} />
-            </Routes>
-          </main>
-          <Footer />
+              <Route path="/product-details" element={<ProductDetails />} />
+            </Route>
+
+            {/* ================= ADMIN ROUTES ================= */}
+            {/* NO Header / Footer here */}
+            <Route path="/admin" element={<AdminProtectedRoute />}>
+              <Route element={<AdminLayout />}>
+                <Route index element={<Admin />} />
+                <Route path="profile" element={<AdminProfile />} />
+                <Route path="categories" element={<Categories />} />
+                <Route path="brands" element={<Brands />} />
+                <Route path="products" element={<Products />} />
+              </Route>
+            </Route>
+            
+          </Routes>
+
         </div>
       </AuthProvider>
     </Router>

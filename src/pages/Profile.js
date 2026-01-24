@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProfileSidebar from "../components/ProfileSidebar";
-import { BASE_URL } from "../config";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 /* ===================== SECURITY SECTION ===================== */
 const SecuritySection = () => {

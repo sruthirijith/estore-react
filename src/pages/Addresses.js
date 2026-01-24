@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProfileSidebar from "../components/ProfileSidebar";
 import AddressModal from "../components/AddressModal";
-import { BASE_URL } from "../config";
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 const Addresses = () => {
   const [addresses, setAddresses] = useState([]);
@@ -71,7 +71,7 @@ const Addresses = () => {
 
     const url = isEdit
       ? `${BASE_URL}/address/${editAddress.id}`
-      : `${BASE_URL}/address`;
+      : `${BASE_URL}/addresses`;
 
     const method = isEdit ? "PUT" : "POST";
 
