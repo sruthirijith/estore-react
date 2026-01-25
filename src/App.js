@@ -1,6 +1,8 @@
 import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import "./App.css";
+
 
 /* LAYOUTS */
 import UserLayout from "./components/UserLayout";
@@ -16,6 +18,9 @@ import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Addresses from "./pages/Addresses";
+import Cart from "./pages/Cart";
+import UserProducts from "./pages/UserProducts";
+import Payments from "./pages/Payments";
 
 /* ADMIN PAGES */
 import Admin from "./pages/Admin";
@@ -57,6 +62,10 @@ function App() {
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/product-details" element={<ProductDetails />} />
+              <Route path="/products" element={<UserProducts />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/payments" element={<Payments />} />
+
             </Route>
 
             {/* ================= ADMIN ROUTES ================= */}

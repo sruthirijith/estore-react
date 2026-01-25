@@ -1,7 +1,6 @@
 window.loadCategoriesWithSubcategories = async function () {
     try {
-        const res = await fetch(`${BASE_URL}/categories`)
-;
+        const res = await fetch(`${BASE_URL}/categories`);
         const data = await res.json();
 
         const categoryList = document.getElementById("categoryList");
@@ -31,8 +30,9 @@ window.loadCategoriesWithSubcategories = async function () {
 
 async function loadSubcategories(categoryId) {
     try {
-        const res = await fetch(`${BASE_URL}/categories/${catId}/subcategories`);
-
+        const res = await fetch(
+            `${BASE_URL}/categories/${categoryId}/subcategories`
+        );
         const data = await res.json();
 
         const ul = document.getElementById(`subcat-${categoryId}`);

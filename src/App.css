@@ -8,3 +8,45 @@
 main {
   flex: 1;
 }
+.payment-card {
+  border-radius: 14px;
+  border: 1px solid #eaeaea;
+}
+
+.default-card {
+  border: 2px solid #0d6efd;
+}
+.cart-item {
+  border-radius: 14px;
+}
+
+.cart-remove {
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.qty-box {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+
+.qty-box button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  width: 28px;
+}
+
+.qty-box span {
+  margin: 0 10px;
+  font-weight: 500;
+}
+
+.cart-summary {
+  border-radius: 16px;
+  position: sticky;
+  top: 100px;
+}

@@ -64,3 +64,35 @@ export const getCategories = async () => {
 export const getSubcategories = async (categoryId) => {
   return apiCall(`/categories/${categoryId}/subcategories`);
 };
+
+// Products API
+export const getProductsBySubcategory = async (subcategoryId) => {
+  return apiCall(`/by-subcategory/${subcategoryId}`);
+};
+
+// ---------------- CART APIs ----------------
+
+// ADD TO CART
+export const addToCart = async (productId, quantity = 1) => {
+  return apiCall("/cart/add", {
+    method: "POST",
+    body: JSON.stringify({
+      product_id: productId,
+      quantity: quantity,
+    }),
+  });
+};
+
+// GET CART
+export const getCart = async () => {
+  return apiCall("/cart", {
+    method: "GET",
+  });
+};
+
+// DELETE CART ITEM
+export const deleteCartItem = async (productId) => {
+  return apiCall(`/cart/item/${productId}`, {
+    method: "DELETE",
+  });
+};
