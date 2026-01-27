@@ -51,7 +51,7 @@ const Header = () => {
   // 🔍 SEARCH HANDLER
   const handleSearch = () => {
     if (!searchText.trim()) return;
-    navigate(`/products?search=${encodeURIComponent(searchText.trim())}`);
+    navigate(`/product-details?search=${encodeURIComponent(searchText.trim())}`);
     setSearchText("");
   };
 

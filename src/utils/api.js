@@ -97,10 +97,10 @@ export const deleteCartItem = async (productId) => {
   });
 };
 
-// SEARCH PRODUCTS BY NAME
 export const searchProducts = async (query) => {
-  return apiCall(`/products/search?query=${query}`, {
-    method: "GET",
-  });
+  return apiCall(
+    `/products/search?query=${encodeURIComponent(query)}`,
+    { method: "GET" }
+  );
 };
 

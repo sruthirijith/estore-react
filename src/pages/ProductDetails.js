@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { searchProducts } from "../utils/api";
+
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -8,10 +11,20 @@ const ProductDetails = () => {
   const [products, setProducts] = useState([]);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
 
   useEffect(() => {
+  const params = new URLSearchParams(location.search);
+  const searchQuery = params.get("search");
+
+  if (searchQuery) {
+    fetchSearchedProducts(searchQuery);
+  } else {
     fetchProducts();
-  }, []);
+  }
+}, [location.search]);
+
 
   // ✅ FETCH PRODUCTS
   const fetchProducts = async () => {
@@ -23,6 +36,15 @@ const ProductDetails = () => {
       console.error("Error fetching products", err);
     }
   };
+  
+  const fetchSearchedProducts = async (query) => {
+  try {
+    const res = await searchProducts(query);
+    setProducts(res.detail.data);
+  } catch (err) {
+    console.error("Search failed", err);
+  }
+};
 
   // ✅ ADD TO CART WITH LOGIN CHECK
   const handleAddToCart = async (productId) => {
