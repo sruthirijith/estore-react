@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getCategories, getSubcategories } from '../utils/api';
 
@@ -8,6 +8,9 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState({});
   const [showCategories, setShowCategories] = useState(false);
+  const [searchText, setSearchText] = useState("")
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadCategories();
@@ -43,6 +46,13 @@ const Header = () => {
 
   const handleLogout = async () => {
     await logout();
+  };
+
+  // 🔍 SEARCH HANDLER
+  const handleSearch = () => {
+    if (!searchText.trim()) return;
+    navigate(`/products?search=${encodeURIComponent(searchText.trim())}`);
+    setSearchText("");
   };
 
   return (
@@ -118,65 +128,63 @@ const Header = () => {
           </div>
         </div>
       </div>
-
+      
       {/* Header Middle */}
-      <div className="header-middle">
-        <div className="container">
-          <div className="row align-items-center">
+        <div className="header-middle">
+          <div className="container">
+            <div className="row align-items-center">
+
+               {/* 🏷️ BRAND / LOGO */}
             <div className="col-lg-3 col-md-3 col-7">
               <Link className="navbar-brand" to="/">
                 <span className="brand-text">eStore</span>
               </Link>
             </div>
-            <div className="col-lg-5 col-md-7 d-xs-none">
-              <div className="main-menu-search">
-                <div className="navbar-search search-style-5">
-                  <div className="search-select">
-                    <div className="select-position">
-                      <select id="select1" defaultValue="all">
-                        <option value="all">All</option>
-                        <option value="1">option 01</option>
-                        <option value="2">option 02</option>
-                        <option value="3">option 03</option>
-                        <option value="4">option 04</option>
-                        <option value="5">option 05</option>
-                      </select>
+
+              {/* 🔍 SEARCH */}
+              <div className="col-lg-5 col-md-6 d-none d-md-block">
+                <div className="main-menu-search">
+                  <div className="navbar-search search-style-5">
+                    <div className="search-input">
+                      <input
+                        type="text"
+                        placeholder="Search products..."
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                      />
+                    </div>
+                    <div className="search-btn">
+                      <button onClick={handleSearch}>
+                        <i className="lni lni-search-alt"></i>
+                      </button>
                     </div>
                   </div>
-                  <div className="search-input">
-                    <input type="text" placeholder="Search" />
-                  </div>
-                  <div className="search-btn">
-                    <button><i className="lni lni-search-alt"></i></button>
-                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-lg-4 col-md-2 col-5">
-              <div className="middle-right-area">
-                <div className="nav-hotline">
-                  <i className="lni lni-phone"></i>
-                  <h3>Hotline: <span>(+100) 123 456 7890</span></h3>
-                </div>
-                <div className="navbar-cart">
-                  <div className="wishlist">
-                    <Link to="/wishlist">
-                      <i className="lni lni-heart"></i>
-                      <span className="total-items">0</span>
-                    </Link>
-                  </div>
-                  <div className="cart-items">
-                    <Link to="/cart" className="main-btn">
-                      <i className="lni lni-cart"></i>
-                      <span className="total-items">2</span>
-                    </Link>
+
+              {/* 📞 HOTLINE + ❤️ WISHLIST + 🛒 CART */}
+                <div className="col-lg-4 col-md-4 col-6">
+                  <div className="d-flex align-items-center justify-content-end gap-4">
+
+                    {/* Hotline */}
+                    <div className="nav-hotline d-flex align-items-center">
+                      <i className="lni lni-phone me-2"></i>
+                      <h3 className="mb-0">
+                        Hotline: <span>(+100) 123 456 7890</span>
+                      </h3>
+                    </div>
+
+      
+
                   </div>
                 </div>
-              </div>
+
+
             </div>
           </div>
         </div>
-      </div>
+
 
       {/* Header Bottom */}
       <div className="container">
@@ -228,7 +236,7 @@ const Header = () => {
                       <Link to="/about">About</Link>
                     </li>
                     <li className="nav-item">
-                      <Link to="/product-details">Product details</Link>
+                      <Link to="/product-details">Products</Link>
                     </li>
                     <li className="nav-item">
                       <Link to="/cart">Cart</Link>

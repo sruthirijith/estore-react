@@ -1,4 +1,4 @@
-import { BASE_URL } from '../config';
+const BASE_URL = process.env.REACT_APP_API_URL;
 
 // Helper function to get auth headers
 const getAuthHeaders = () => {
@@ -96,3 +96,11 @@ export const deleteCartItem = async (productId) => {
     method: "DELETE",
   });
 };
+
+// SEARCH PRODUCTS BY NAME
+export const searchProducts = async (query) => {
+  return apiCall(`/products/search?query=${query}`, {
+    method: "GET",
+  });
+};
+
